@@ -11,7 +11,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-        uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@master
       - name: setup .NET core SDK
         uses: actions/setup-dotnet@v1.7.2
         with:
