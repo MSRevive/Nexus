@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace MSNexus
 {
@@ -17,14 +18,17 @@ namespace MSNexus
     {
         public Startup(IConfiguration configuration)
         {
+            //_logger = logger;
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        //private readonly ILogger _logger;
+        protected IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DAL.Character>();
             services.AddControllers();
         }
 
