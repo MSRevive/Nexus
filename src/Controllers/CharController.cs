@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace MSNexus.Controllers
 {
     [Route("api/character")]
-    public class CharController : Controller
+    public class CharController : ControllerBase
     {
         private readonly ILogger _logger;
 

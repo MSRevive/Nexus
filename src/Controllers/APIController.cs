@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MSNexus.Controllers
 {
     [Route("api")]
-    public class APIController : Controller
+    public class APIController : ControllerBase
     {
         // GET: api/<controller>
         [HttpGet]
