@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +8,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace MSNexus
 {
     public class Startup
     {
+        protected IConfiguration Config { get; }
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Config = configuration;
         }
-
-        protected IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,6 +34,24 @@ namespace MSNexus
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            if (Config.GetValue<bool>("IPWhitelist:EnableMiddleware"))
+            {
+                Dictionary<string, bool> ipWhitelist = new Dictionary<string, bool>();
+
+                try
+                {
+                    var text = File.ReadAllText(Config["IPWhitelist:File"]);
+                    ipWhitelist = JsonConvert.DeserializeObject<Dictionary<string, bool>>(text);
+                }
+                catch (FileNotFoundException)
+                {
+                    Console.WriteLine("whitelist file not found.");
+                    return;
+                }
+
+                app.UseMiddleware<Middleware.IpWhitelist>();
             }
 
             app.UseHttpsRedirection();
