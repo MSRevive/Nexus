@@ -25,17 +25,17 @@ namespace MSNexus.Middleware
         {
             var ip = context.Connection.RemoteIpAddress;
 
-            if (!context.Request.Headers.TryGetValue(_apiKey, out var providedApiKey))
+            if (!context.Request.Headers.TryGetValue("X-KEY", out var providedApiKey))
             {
                 _logger.LogInformation($"Invalid API key from {ip}");
-                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return;
             }
 
             if (!_apiKey.Equals(providedApiKey))
             {
                 _logger.LogInformation($"Invalid API key from {ip} using {_apiKey}");
-                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return;
             }
 
