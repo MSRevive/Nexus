@@ -14,10 +14,10 @@ namespace MSNexus.Middleware
         private readonly ILogger _logger;
         private readonly string _apiKey;
 
-        public ApiKey(RequestDelegate next, ILogger logger, string apiKey)
+        public ApiKey(RequestDelegate next, ILoggerFactory loggerFactory, string apiKey)
         {
             _next = next;
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<ApiKey>();
             _apiKey = apiKey;
         }
 

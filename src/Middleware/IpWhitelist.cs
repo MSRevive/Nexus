@@ -14,10 +14,10 @@ namespace MSNexus.Middleware
         private readonly ILogger _logger;
         private Dictionary<string, bool> _list = new Dictionary<string, bool>();
 
-        public IpWhitelist(RequestDelegate next, ILogger<IpWhitelist> logger, Dictionary<string, bool> list)
+        public IpWhitelist(RequestDelegate next, ILoggerFactory loggerFactory, Dictionary<string, bool> list)
         {
             _next = next;
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<IpWhitelist>();
             _list = list;
         }
 
