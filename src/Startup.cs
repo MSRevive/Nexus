@@ -37,6 +37,7 @@ namespace MSNexus
             }
 
             //Middleware stuff
+            Console.WriteLine("API Authenication Enabled.");
             if (Config.GetValue<bool>("APIAuth:Enabled"))
             {
                 Dictionary<string, bool> ipWhitelist = new Dictionary<string, bool>();
@@ -51,14 +52,17 @@ namespace MSNexus
                     catch (FileNotFoundException)
                     {
                         Console.WriteLine("whitelist file not found.");
-                        return;
                     }
-
-                    app.UseMiddleware<Middleware.IpWhitelist>(ipWhitelist);
+                    finally
+                    {
+                        Console.WriteLine("IpWhitelist middleware.");
+                        app.UseMiddleware<Middleware.IpWhitelist>(ipWhitelist);
+                    } 
                 }
 
                 if (Config.GetValue<bool>("APIAuth:UseKey"))
                 {
+                    Console.WriteLine("ApiKey middleware.");
                     app.UseMiddleware<Middleware.ApiKey>(Config["APIAuth:Key"]);
                 }
             }
