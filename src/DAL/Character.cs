@@ -19,7 +19,7 @@ namespace MSNexus.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(Config.GetConnectionString("cs"));
+            optionsBuilder.UseSqlite(Config["SQLite:ConnectionString"]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
