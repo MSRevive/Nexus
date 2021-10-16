@@ -36,22 +36,31 @@ namespace MSNexus
                 app.UseDeveloperExceptionPage();
             }
 
-            if (Config.GetValue<bool>("IPWhitelist:EnableMiddleware"))
+            //Middleware stuff
+            if (Config.GetValue<bool>("APIAuth:Enabled"))
             {
                 Dictionary<string, bool> ipWhitelist = new Dictionary<string, bool>();
 
-                try
+                if (Config.GetValue<bool>("APIAuth:UseIP"))
                 {
-                    var text = File.ReadAllText(Config["IPWhitelist:File"]);
-                    ipWhitelist = JsonConvert.DeserializeObject<Dictionary<string, bool>>(text);
-                }
-                catch (FileNotFoundException)
-                {
-                    Console.WriteLine("whitelist file not found.");
-                    return;
+                    try
+                    {
+                        var text = File.ReadAllText(Config["APIAuth:IPList"]);
+                        ipWhitelist = JsonConvert.DeserializeObject<Dictionary<string, bool>>(text);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Console.WriteLine("whitelist file not found.");
+                        return;
+                    }
+
+                    app.UseMiddleware<Middleware.IpWhitelist>(ipWhitelist);
                 }
 
-                app.UseMiddleware<Middleware.IpWhitelist>();
+                if (Config.GetValue<bool>("APIAuth:UseKey"))
+                {
+                    app.UseMiddleware<Middleware.ApiKey>(Config["APIAuth:Key"]);
+                }
             }
 
             app.UseHttpsRedirection();
