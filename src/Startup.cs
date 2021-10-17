@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Newtonsoft.Json;
+using MSNexus.Repository;
 
 namespace MSNexus
 {
@@ -32,6 +33,7 @@ namespace MSNexus
         {
             services.AddEntityFrameworkSqlite();
             services.AddDbContext<DAL.Character>();
+            services.AddScoped<ICharactersAsyncRepository, CharactersRepository>();
             services.AddControllers();
         }
 
