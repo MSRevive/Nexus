@@ -24,16 +24,23 @@ namespace MSNexus.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public async Task<IEnumerable<Characters>> GetCharacters()
+        public async Task<IEnumerable<Characters>> GetAllCharacters()
         {
             return await _context.Characters.ToListAsync();
         }
 
-        // GET api/<controller>/5
+        // GET api/<controller>/{steamid}
         [HttpGet("{steamid}")]
-        public string Get(int id)
+        public async Task<IEnumerable<Characters>> GetCharacters(string steamid)
         {
-            return "value";
+            return await _context.Characters.Where(c => c.SteamID.Contains(steamid)).ToListAsync();
+        }
+
+        // GET api/<controller>/{steamid}/{slot}
+        [HttpGet("{steamid}/{slot}")]
+        public async Task<IEnumerable<Characters>> GetCharacter(string steamid, short slot)
+        {
+            return await _context.Characters.Where(c => c.SteamID.Contains(steamid) && c.Slot.Equals(slot)).ToListAsync();
         }
 
         // POST api/<controller>
@@ -43,7 +50,7 @@ namespace MSNexus.Controllers
             _context.Characters.Add(charData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetCharacters), new { ID = Guid.NewGuid() }, charData);
+            return CreatedAtAction(nameof(GetAllCharacters), new { ID = Guid.NewGuid() }, charData);
         }
 
         // PUT api/<controller>/5
