@@ -50,7 +50,7 @@ namespace MSNexus.Controllers
             _context.Characters.Add(charData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAllCharacters), new { ID = Guid.NewGuid() }, charData);
+            return CreatedAtAction(nameof(GetCharacters), new { SteamID = charData.SteamID }, charData);
         }
 
         // PUT api/<controller>/5
