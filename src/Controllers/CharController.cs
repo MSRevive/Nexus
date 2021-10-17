@@ -40,7 +40,6 @@ namespace MSNexus.Controllers
         [HttpPost]
         public async Task<ActionResult<Characters>> PostCharacter([FromBody] Characters charData)
         {
-            Console.WriteLine(charData);
             _context.Characters.Add(charData);
             await _context.SaveChangesAsync();
 
