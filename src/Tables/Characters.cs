@@ -12,9 +12,10 @@ namespace MSNexus.Model
     {
         //ID will be used as the primary key.
         [Key]
-        [Required]
-        public string ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid ID { get; set; }
 
+        public string SteamID { get; set; }
         public short Slot { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
