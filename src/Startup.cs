@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Sqlite;
 using Newtonsoft.Json;
 
 namespace MSNexus
@@ -16,14 +18,19 @@ namespace MSNexus
     {
         protected IConfiguration Config { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Config = configuration;
+            using(var client = new DAL.Character(configuration))
+            {
+                client.Database.EnsureCreated();
+            }
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddEntityFrameworkSqlite();
             services.AddDbContext<DAL.Character>();
             services.AddControllers();
         }
@@ -37,7 +44,6 @@ namespace MSNexus
             }
 
             //Middleware stuff
-            Console.WriteLine("API Authenication Enabled.");
             if (Config.GetValue<bool>("APIAuth:Enabled"))
             {
                 Dictionary<string, bool> ipWhitelist = new Dictionary<string, bool>();
@@ -51,18 +57,16 @@ namespace MSNexus
                     }
                     catch (FileNotFoundException)
                     {
-                        Console.WriteLine("whitelist file not found.");
+                        //don't use middleware if file isn't found.
                     }
                     finally
                     {
-                        Console.WriteLine("IpWhitelist middleware.");
                         app.UseMiddleware<Middleware.IpWhitelist>(ipWhitelist);
                     } 
                 }
 
                 if (Config.GetValue<bool>("APIAuth:UseKey"))
                 {
-                    Console.WriteLine("ApiKey middleware.");
                     app.UseMiddleware<Middleware.ApiKey>(Config["APIAuth:Key"]);
                 }
             }
