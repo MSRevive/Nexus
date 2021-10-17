@@ -27,7 +27,8 @@ namespace MSNexus.DAL
             modelBuilder.Entity<Model.Characters>().HasData(
                 new Model.Characters()
                 {
-                    ID = "STEAM_0-0-555",
+                    ID = Guid.NewGuid(),
+                    SteamID = "STEAM_0-0-555",
                     Slot = 1,
                     Name = "Test",
                     Gender = "Male",
@@ -41,7 +42,8 @@ namespace MSNexus.DAL
 
                 new Model.Characters()
                 {
-                    ID = "STEAM_0-0-5555",
+                    ID = Guid.NewGuid(),
+                    SteamID = "STEAM_0-0-5555",
                     Slot = 1,
                     Name = "Test2",
                     Gender = "Male",
