@@ -73,10 +73,11 @@ namespace MSNexus.Controllers
             return CreatedAtAction(nameof(GetCharacterByID), new { ID = id }, charData);
         }
 
-        // DELETE api/<controller>/5
+        // DELETE api/<controller>/{id}
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task DeleteCharater(Guid id)
         {
+            await _contextChars.Delete(id);
         }
     }
 }

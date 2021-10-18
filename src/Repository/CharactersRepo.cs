@@ -33,5 +33,13 @@ namespace MSNexus.Repository
             _contextDB.Update(data);
             await _contextDB.SaveChangesAsync();
         }
+
+        public async Task Delete(Guid id)
+        {
+            Characters data = new Characters { ID = id };
+            _contextDB.Characters.Attach(data);
+            _contextDB.Characters.Remove(data);
+            await _contextDB.SaveChangesAsync();
+        }
     }
 }
