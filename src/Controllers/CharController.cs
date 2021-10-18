@@ -15,7 +15,7 @@ namespace MSNexus.Controllers
     public class CharController : ControllerBase
     {
         private readonly ILogger _logger;
-        private Character _context;
+        private readonly Character _context;
         private readonly ICharactersAsyncRepository _contextChars;
 
         public CharController(ILogger<CharController> logger, Character context, ICharactersAsyncRepository contextChars)
