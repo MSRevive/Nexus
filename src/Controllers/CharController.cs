@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MSNexus.DAL;
 using MSNexus.Model;
+using MSNexus.Repository;
 
 namespace MSNexus.Controllers
 {
@@ -15,11 +16,13 @@ namespace MSNexus.Controllers
     {
         private readonly ILogger _logger;
         private Character _context;
+        private readonly ICharactersAsyncRepository _contextChars;
 
-        public CharController(ILogger<CharController> logger, Character context)
+        public CharController(ILogger<CharController> logger, Character context, ICharactersAsyncRepository contextChars)
         {
             _logger = logger;
             _context = context;
+            _contextChars = contextChars;
         }
 
         // GET: api/<controller>
@@ -43,20 +46,31 @@ namespace MSNexus.Controllers
             return await _context.Characters.Where(c => c.SteamID.Contains(steamid) && c.Slot.Equals(slot)).ToListAsync();
         }
 
+        // GET api/<controller>/id/{id}
+        [HttpGet("id/{id}")]
+        public async Task<Characters> GetCharacterByID(Guid id)
+        {
+            //return await _context.Characters.Where(c => c.ID == id).ToListAsync();
+            return await _contextChars.FindAsync(id);
+        }
+
         // POST api/<controller>
+        // Create a new character in the record.
         [HttpPost]
         public async Task<ActionResult<Characters>> PostCharacter([FromBody] Characters charData)
         {
             _context.Characters.Add(charData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetCharacters), new { SteamID = charData.SteamID }, charData);
+            return CreatedAtAction(nameof(GetCharacterByID), new { ID = charData.ID }, charData);
         }
 
-        // PUT api/<controller>/5
+        // PUT api/<controller>/{id}
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task<ActionResult<Characters>> PutCharacter([FromBody] Characters charData, Guid id)
         {
+            await _contextChars.Update(id, charData);
+            return CreatedAtAction(nameof(GetCharacterByID), new { ID = id }, charData);
         }
 
         // DELETE api/<controller>/5

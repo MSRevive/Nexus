@@ -27,14 +27,11 @@ namespace MSNexus.Repository
             return data;
         }
 
-        public async Task Update(Guid? id, Characters data)
+        public async Task Update(Guid id, Characters data)
         {
-            var result = await _contextDB.Characters.FindAsync(id);
-            if (result != null)
-            {
-                result = data;
-                await _contextDB.SaveChangesAsync();
-            }
+            data.ID = id;
+            _contextDB.Update(data);
+            await _contextDB.SaveChangesAsync();
         }
     }
 }

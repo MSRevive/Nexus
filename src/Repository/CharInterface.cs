@@ -9,6 +9,6 @@ namespace MSNexus.Repository
     {
         Task<Model.Characters> AddAsync(Model.Characters data);
         Task<Model.Characters> FindAsync(Guid? id);
-        Task Update(Guid? id, Model.Characters data);
+        Task Update(Guid id, Model.Characters data);
     }
 }
