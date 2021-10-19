@@ -25,6 +25,7 @@ namespace MSNexus.Model
         public ulong Gold { get; set; }
 
         public string Skills { get; set; }
+        public string Pets { get; set; }
 
         public short Health { get; set; }
         public short Mana { get; set; }
