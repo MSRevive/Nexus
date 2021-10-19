@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using MSNexus.DAL;
 using MSNexus.Model;
 using MSNexus.Repository;
@@ -14,13 +13,11 @@ namespace MSNexus.Controllers
     [Route("api/character")]
     public class CharController : ControllerBase
     {
-        private readonly ILogger _logger;
         private readonly Character _context;
         private readonly ICharactersAsyncRepository _contextChars;
 
-        public CharController(ILogger<CharController> logger, Character context, ICharactersAsyncRepository contextChars)
+        public CharController(Character context, ICharactersAsyncRepository contextChars)
         {
-            _logger = logger;
             _context = context;
             _contextChars = contextChars;
         }
