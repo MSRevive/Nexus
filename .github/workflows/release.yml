@@ -30,8 +30,8 @@ jobs:
           echo ::set-output name=version_name::`sed -nr "s/^## (${REF:10} .*)$/\1/p" CHANGELOG.md`
       - name: tar release
         run: |
-          mkdir ./temp
-          tar -cfz ./temp/msnexus.tar.gz /home/runner/work/Playground/Playground/src/WebApp2/bin/Debug/netcoreapp3.1/publish/*
+          mkdir ~/temp
+          tar -czvf ~/temp/msnexus.tar.gz ~/runner/work/Playground/Playground/MSNexus/bin/Debug/netcoreapp3.0/publish/*
       - name: create release
         id: create_release
         uses: actions/create-release@v1
