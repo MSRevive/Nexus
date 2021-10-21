@@ -29,7 +29,7 @@ jobs:
       - name: tar release
         run: |
           mkdir ~/temp
-          tar -czvf ~/temp/msnexus.tar.gz ~/runner/work/Nexus/Nexus/bin/Release/netcoreapp3.1/Publish
+          tar -czvf ~/temp/msnexus.tar.gz ~/work/Nexus/Nexus/bin/Release/netcoreapp3.1/Publish
       - name: create release
         id: create_release
         uses: actions/create-release@v1
