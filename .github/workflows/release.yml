@@ -19,7 +19,7 @@ jobs:
       - name: test
         run: dotnet test --no-restore --verbosity normal
       - name: publish
-        run: dotnet publish --framework netcoreapp3.0 -c Release
+        run: dotnet publish --framework netcoreapp3.1 -c Release
       - name: extract changelog
         env:
           REF: ${{ github.ref }}
