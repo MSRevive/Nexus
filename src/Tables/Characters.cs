@@ -18,7 +18,8 @@ namespace MSNexus.Model
         public byte Gender { get; set; } //id representation of gender
         public byte Race { get; set; } //id representation of race
         public string Flags { get; set; } //character sheet specific flags.
-        public string Shortcuts { get; set; }
+        public string Quickslots { get; set; }
+        public string Quests { get; set; }
         public string Guild { get; set; } //guild name
 
         public short Kills { get; set; }
