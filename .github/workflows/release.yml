@@ -16,10 +16,10 @@ jobs:
           dotnet-version: 5.0.x
       - name: install dependencies
         run: dotnet restore
-      - name: build
-        run: dotnet build --configuration Release --no-restore
       - name: test
         run: dotnet test --no-restore --verbosity normal
+      - name: publish
+        run: dotnet publish --framework netcoreapp3.0 -c Release
       - name: extract changelog
         env:
           REF: ${{ github.ref }}
@@ -29,7 +29,7 @@ jobs:
       - name: tar release
         run: |
           mkdir ~/temp
-          tar -czvf ~/temp/msnexus.tar.gz ~/runner/work/Playground/Playground/MSNexus/bin/Release/netcoreapp3.0/*
+          tar -czvf ~/temp/msnexus.tar.gz ~/runner/work/Nexus/Nexus/bin/Release/netcoreapp3.0/Publish
       - name: create release
         id: create_release
         uses: actions/create-release@v1
@@ -40,7 +40,7 @@ jobs:
           release_name: ${{ steps.extract_changelog.outputs.version_name }}
           body_path: ./RELEASE_CHANGELOG
           draft: true
-          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') || contains(github.ref, 'rc') }}
       - name: upload
         uses: actions/upload-release-asset@v1
         env:
