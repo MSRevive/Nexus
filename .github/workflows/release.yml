@@ -19,15 +19,13 @@ jobs:
       - name: test
         run: dotnet test --no-restore --verbosity normal
       - name: publish
-        run: dotnet publish --framework netcoreapp3.1 -c Release
+        run: dotnet publish --framework netcoreapp3.1 --runtime linux-x64 -c Release -o msnexus-linux-x64
       - name: extract changelog
         env:
           REF: ${{ github.ref }}
-        run: |
-          sed -n "/^## ${REF:10}/,/^## /{/^## /b;p}" CHANGELOG.md > ./RELEASE_CHANGELOG
-          echo ::set-output name=version_name::`sed -nr "s/^## (${REF:10} .*)$/\1/p" CHANGELOG.md`
+        run: sed -n "/^## ${REF:10}/,/^## /{/^## /b;p}" CHANGELOG.md > ./RELEASE_CHANGELOG
       - name: tar release
-        run: tar -czvf ~/msnexus.tar.gz ~/work/Nexus/Nexus/bin/Release/netcoreapp3.1/publish
+        run: tar -czvf ~/msnexus.tar.gz msnexus-linux-x64
       - name: create release
         id: create_release
         uses: actions/create-release@v1
@@ -35,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: ${{ steps.extract_changelog.outputs.version_name }}
+          release_name: ${{ github.ref }}
           body_path: ./RELEASE_CHANGELOG
           draft: true
           prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') || contains(github.ref, 'rc') }}
