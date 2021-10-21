@@ -1,0 +1,49 @@
+name: create release
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - name: setup .NET core SDK
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 5.0.x
+      - name: install dependencies
+        run: dotnet restore
+      - name: build
+        run: dotnet build --configuration Release --no-restore
+      - name: test
+        run: dotnet test --no-restore --verbosity normal
+      - name: publish
+        run: dotnet publish
+      - name: extract changelog
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          sed -n "/^## ${REF:10}/,/^## /{/^## /b;p}" CHANGELOG.md > ./RELEASE_CHANGELOG
+          echo ::set-output name=version_name::`sed -nr "s/^## (${REF:10} .*)$/\1/p" CHANGELOG.md`
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ steps.extract_changelog.outputs.version_name }}
+          body_path: ./RELEASE_CHANGELOG
+          draft: true
+          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+      - name: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: /home/runner/work/Playground/Playground/src/WebApp2/bin/Debug/netcoreapp3.1/publish/
+          asset_content_type: application/octet-stream
