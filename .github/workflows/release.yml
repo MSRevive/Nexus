@@ -27,7 +27,7 @@ jobs:
           sed -n "/^## ${REF:10}/,/^## /{/^## /b;p}" CHANGELOG.md > ./RELEASE_CHANGELOG
           echo ::set-output name=version_name::`sed -nr "s/^## (${REF:10} .*)$/\1/p" CHANGELOG.md`
       - name: tar release
-        run: tar -czvf ~/temp/msnexus.tar.gz ~/work/Nexus/Nexus/bin/Release/netcoreapp3.1/publish
+        run: tar -czvf ~/msnexus.tar.gz ~/work/Nexus/Nexus/bin/Release/netcoreapp3.1/publish
       - name: create release
         id: create_release
         uses: actions/create-release@v1
@@ -45,6 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ~/temp/msnexus.tar.gz
+          asset_path: ~/msnexus.tar.gz
           asset_name: msnexus.tar.gz
           asset_content_type: application/octet-stream
