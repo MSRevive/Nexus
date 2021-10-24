@@ -38,7 +38,7 @@ namespace MSNexus.DAL
                                 Equipped = "{armor_paura=1}",
                                 LeftHand = "smallarms_nh",
                                 RightHand = "smallarms_nh",
-                                BOH = "{smallarms_nh=2,armor_paura=1,crest_bou=2}"
+                                Bags = "{}"
                             },
 
                             new Model.Characters()
@@ -54,7 +54,7 @@ namespace MSNexus.DAL
                                 Health = 1200,
                                 Mana = 500,
                                 Equipped = "{armor_paura=1,crest_bou=1}",
-                                BOH = "{smallarms_nh=2,armor_paura=1,crest_bou=2}"
+                                Bags = "{}"
                             }
                         );
             #endif

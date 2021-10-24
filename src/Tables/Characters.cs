@@ -20,7 +20,7 @@ namespace MSNexus.Model
         public string Flags { get; set; } //character sheet specific flags.
         public string Quickslots { get; set; }
         public string Quests { get; set; }
-        public string Guild { get; set; } //guild name
+        public string Guild { get; set; } //guild/party name
 
         public short Kills { get; set; }
         public ulong Gold { get; set; }
@@ -32,17 +32,11 @@ namespace MSNexus.Model
         public short Mana { get; set; }
         public string Equipped { get; set; }
         public string LeftHand { get; set; }
-        public string Spells { get; set; }
         public string RightHand { get; set; }
+        public string Spells { get; set; } //for learned spells
 
-        public string Spellbook { get; set; }
-        public string HeavyBackpack { get; set; }
-        public string BOH { get; set; }
-        public string BOHLesser { get; set; }
-        public string Sack { get; set; }
-        public string BigSack { get; set; }
-        public string Quiver { get; set; }
-        public string XbowQuiver { get; set; }
+        public string Spellbook { get; set; } //for the spell scrolls.
+        public string Bags { get; set; } //this will cover all the bags.
         public string Sheaths { get; set; } //this will cover all sheaths by storing json.
     }
 }
