@@ -11,7 +11,7 @@ namespace MSNexus.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
-        private Dictionary<string, bool> _list = new Dictionary<string, bool>();
+        private readonly Dictionary<string, bool> _list = new Dictionary<string, bool>();
 
         public IpWhitelist(RequestDelegate next, ILoggerFactory loggerFactory, Dictionary<string, bool> list)
         {
