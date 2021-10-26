@@ -12,7 +12,7 @@ namespace MSNexus.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ID { get; set; } //unique ID for characters
 
-        public string SteamID { get; set; }
+        public ulong SteamID { get; set; }
         public byte Slot { get; set; }
         public string Name { get; set; }
         public byte Gender { get; set; } //id representation of gender

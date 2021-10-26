@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.0-rc2
+### Changes
+* SteamID64 now use ulong instead of string.
+
 ## v1.0.0-rc1
 ### Added
 * Added GET method to retrieve if steamid64 is banned.

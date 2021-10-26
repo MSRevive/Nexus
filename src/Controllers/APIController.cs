@@ -13,7 +13,7 @@ namespace MSNexus.Controllers
         private IConfiguration _config;
         private readonly ILogger _logger;
         private readonly ConcurrentDictionary<string, string> _mapList = new ConcurrentDictionary<string, string>();
-        private readonly ConcurrentDictionary<string, bool> _banList = new ConcurrentDictionary<string, bool>();
+        private readonly ConcurrentDictionary<ulong, bool> _banList = new ConcurrentDictionary<ulong, bool>();
 
         public APIController(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
@@ -22,11 +22,9 @@ namespace MSNexus.Controllers
 
             if (_config.GetValue<bool>("Verify:EnforceMap"))
             {
-                string text = "{}";
-
                 if (System.IO.File.Exists(_config["Verify:MapList"]))
                 {
-                    text = System.IO.File.ReadAllText(_config["Verify:MapList"]);
+                    var text = System.IO.File.ReadAllText(_config["Verify:MapList"]);
                     _mapList = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(text);
                 }
                 else
@@ -38,12 +36,10 @@ namespace MSNexus.Controllers
 
             if (_config.GetValue<bool>("Verify:EnforceBans"))
             {
-                string text;
-
                 if (System.IO.File.Exists(_config["Verify:BanList"]))
                 {
-                    text = System.IO.File.ReadAllText(_config["Verify:BanList"]);
-                    _banList = JsonConvert.DeserializeObject<ConcurrentDictionary<string, bool>>(text);
+                    var text = System.IO.File.ReadAllText(_config["Verify:BanList"]);
+                    _banList = JsonConvert.DeserializeObject<ConcurrentDictionary<ulong, bool>>(text);
                 }
                 else
                 {
@@ -74,7 +70,7 @@ namespace MSNexus.Controllers
 
         //result true == player is banned.
         [HttpGet("ban/{steamid}")]
-        public ActionResult<ResultType> GetBanVerify(string steamid)
+        public ActionResult<ResultType> GetBanVerify(ulong steamid)
         {
             if (_banList != null && _config.GetValue<bool>("Verify:EnforceBan"))
             {

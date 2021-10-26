@@ -26,7 +26,7 @@ namespace MSNexus.DAL
                             new Model.Characters()
                             {
                                 ID = Guid.NewGuid(),
-                                SteamID = "76561198092541763",
+                                SteamID = 76561198092541763,
                                 Slot = 1,
                                 Name = "Test",
                                 Gender = 1,
@@ -44,7 +44,7 @@ namespace MSNexus.DAL
                             new Model.Characters()
                             {
                                 ID = Guid.NewGuid(),
-                                SteamID = "76561198092543828",
+                                SteamID = 76561198092543828,
                                 Slot = 1,
                                 Name = "Test2",
                                 Gender = 0,

@@ -31,16 +31,16 @@ namespace MSNexus.Controllers
 
         // GET api/<controller>/{steamid}
         [HttpGet("{steamid}")]
-        public async Task<IEnumerable<Characters>> GetCharacters(string steamid)
+        public async Task<IEnumerable<Characters>> GetCharacters(ulong steamid)
         {
-            return await _context.Characters.Where(c => c.SteamID.Contains(steamid)).ToListAsync();
+            return await _context.Characters.Where(c => c.SteamID.Equals(steamid)).ToListAsync();
         }
 
         // GET api/<controller>/{steamid}/{slot}
         [HttpGet("{steamid}/{slot}")]
-        public async Task<IEnumerable<Characters>> GetCharacter(string steamid, short slot)
+        public async Task<IEnumerable<Characters>> GetCharacter(ulong steamid, short slot)
         {
-            return await _context.Characters.Where(c => c.SteamID.Contains(steamid) && c.Slot.Equals(slot)).ToListAsync();
+            return await _context.Characters.Where(c => c.SteamID.Equals(steamid) && c.Slot.Equals(slot)).ToListAsync();
         }
 
         // GET api/<controller>/id/{id}
