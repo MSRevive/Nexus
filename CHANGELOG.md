@@ -1,8 +1,11 @@
 # Changelog
 
 ## v1.0.0-rc2
+### Added
+* Added GET method to retrieve if sc.dll hash matches.
 ### Changes
 * SteamID64 now use ulong instead of string.
+* Changes ban and map hashes to be uint.
 
 ## v1.0.0-rc1
 ### Added
