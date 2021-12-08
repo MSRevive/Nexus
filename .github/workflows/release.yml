@@ -27,7 +27,7 @@ jobs:
       - name: publish
         run: dotnet publish --framework netcoreapp3.1 --runtime linux-x64 -c Release -o msnexus-linux-x64
       - name: beautify
-        run: ncbeauty --force=True --loglevel=Info msnexus-linux-x64 libs "dll1.dll;lib*;..."
+        run: ncbeauty --force=True --loglevel=Info msnexus-linux-x64 libs
       - name: extract changelog
         env:
           REF: ${{ github.ref }}
