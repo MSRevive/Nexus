@@ -10,10 +10,14 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@master
-      - name: setup .NET core SDK
+      - name: setup .NET core 5.0.x
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: 5.0.x
+      - name: setup .NET core 3.1.x SDK
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 3.1.x
       - name: install dependencies
         run: dotnet restore
       - name: test
